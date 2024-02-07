@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check out! Your orders.</title>
+</head>
+
+<body>
+    <h1>Order Details</h1>
+
+    <div id="orderDetails"></div>
+
+    <script>
+        var order = {
+            orderNumber: "001",
+            product: "Product A",
+            quantity: 2,
+            totalPrice: 50.00,
+            shippingAddress: "123 Shipping Street, Cityville",
+            orderDate: "January 10, 2024"
+        };
+
+        function displayOrderDetails() {
+            var orderDetailsElement = document.getElementById('orderDetails');
+            orderDetailsElement.innerHTML = `
+                <h2>Order Number: ${order.orderNumber}</h2>
+                <p>Product: ${order.product}</p>
+                <p>Quantity: ${order.quantity}</p>
+                <p>Total Price: $${order.totalPrice.toFixed(2)}</p>
+                <p>Shipping Address: ${order.shippingAddress}</p>
+                <p>Order Date: ${order.orderDate}</p>
+                <!-- Add more details as needed -->
+            `;
+        }
+        displayOrderDetails();
+    </script>
+</body>
+
+</html>
