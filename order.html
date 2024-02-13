@@ -9,34 +9,25 @@
 </head>
 
 <body>
-    <h1>Order Details</h1>
+    <h2>Order Form</h2>
+    <form action="process_order.php" method="post">
+        <label for="product_name">Product Name:</label><br>
+        <input type="text" id="product_name" name="product_name"><br><br>
 
-    <div id="orderDetails"></div>
+        <label for="quantity">Quantity:</label><br>
+        <input type="number" id="quantity" name="quantity" min="1"><br><br>
 
-    <script>
-        var order = {
-            orderNumber: "001",
-            product: "Product A",
-            quantity: 2,
-            totalPrice: 50.00,
-            shippingAddress: "123 Shipping Street, Cityville",
-            orderDate: "January 10, 2024"
-        };
+        <label for="customer_name">Your Name:</label><br>
+        <input type="text" id="customer_name" name="customer_name"><br><br>
 
-        function displayOrderDetails() {
-            var orderDetailsElement = document.getElementById('orderDetails');
-            orderDetailsElement.innerHTML = `
-                <h2>Order Number: ${order.orderNumber}</h2>
-                <p>Product: ${order.product}</p>
-                <p>Quantity: ${order.quantity}</p>
-                <p>Total Price: $${order.totalPrice.toFixed(2)}</p>
-                <p>Shipping Address: ${order.shippingAddress}</p>
-                <p>Order Date: ${order.orderDate}</p>
-                <!-- Add more details as needed -->
-            `;
-        }
-        displayOrderDetails();
-    </script>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address" rows="4" cols="50"></textarea><br><br>
+
+        <input type="submit" value="Place Order">
+    </form>
 </body>
 
 </html>

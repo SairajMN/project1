@@ -44,16 +44,18 @@
 /* <!-- BODY --> */
 
 #main_body {
-    display: flex;
+    display: inline-block;
     margin-top: 80px;
     margin-left: 13%;
 }
 
 #main_body .body2 {
-    width: 550px;
+    height: 15%;
+    width: 75%;
 }
 
 #main_body .bodyp1 {
+    margin: 150px;
     padding-left: 100px;
     padding-top: 80px;
     font-size: 50px;
@@ -69,8 +71,8 @@
 
 .bodyp1 .btn_D {
     width: 40%;
-    height: 14%;
-    color: #00bfff;
+    height: 30px;
+    color: #000000;
     background-color: ghostwhite;
     border: 1px solid grey;
     border-radius: 10px;
@@ -79,16 +81,13 @@
 
 .bodyp1 .btn_T {
     width: 40%;
-    height: 14%;
+    height: 30px;
     color: rgb(255, 255, 255);
     background-color: #ff0000;
     border: 1px solid #ff0000;
     border-radius: 10px;
     cursor: pointer;
 }
-
-
-/* QUICK MENU */
 
 #Menu h1 {
     color: #ff0000;
@@ -139,9 +138,6 @@
     color: #ff0000;
 }
 
-
-/* footer */
-
 #int {
     display: flex;
     flex-direction: row;
@@ -182,4 +178,57 @@
 
 .mbody {
     background-color: #000000;
+}
+
+.bodyp0 {
+    height: 50%;
+    width: 75%;
+    margin: 4px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signbody {
+    background-color: black;
+}
+
+.form {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 0 10px;
+}
+
+.form h2 {
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(78, 77, 77);
+    border-radius: 5px;
+}
+
+.form button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form button:hover {
+    background: #0056b3;
 }
