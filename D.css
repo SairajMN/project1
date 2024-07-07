@@ -242,7 +242,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: black;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -253,6 +253,9 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    border: 1px rgb(243, 213, 198) solid;
+    border-radius: 7.5px;
+    background-color: #000000;
 }
 
 .dropdown:hover .dropdown-content {
@@ -261,4 +264,8 @@
 
 .menu1 {
     text-decoration: none;
+}
+
+.dropdown button {
+    background-color: #000000;
 }
