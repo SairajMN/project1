@@ -1,6 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+    body {
+        background-color: black;
+        text-align: center;
+        color: aliceblue;
+    }
+    
+    label {}
+    
+    input,
+    textarea {
+        background-color: beige;
+        width: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgb(78, 77, 77);
+        border-radius: 5px;
+        color: #000000;
+    }
+    
+    #submit {
+        background-color: rgb(237, 68, 91);
+        width: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgb(78, 77, 77);
+        border-radius: 5px;
+        color: #000000;
+        font-style: bold;
+    }
+</style>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +42,7 @@
 
 <body>
     <h2>Order Form</h2>
-    <form action="process_order.php" method="post">
+    <form action="" method="post">
         <label for="product_name">Product Name:</label><br>
         <input type="text" id="product_name" name="product_name"><br><br>
 
@@ -26,7 +58,7 @@
         <label for="address">Address:</label><br>
         <textarea id="address" name="address" rows="4" cols="50"></textarea><br><br>
 
-        <input type="submit" value="Place Order">
+        <input id="submit" type="submit" value="Place Order">
     </form>
 </body>
 
