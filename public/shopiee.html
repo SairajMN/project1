@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopiee.com</title>
+    <link rel="stylesheet" href="D.css">
+</head>
+
+<body class="mbody">
+    <nav id="main_nav">
+        <a href="#">
+            <img class="logo" src="logo.png" alt=" Logo">
+        </a>
+        <ul>
+            <li class="menu1">
+                <div class="dropdown">
+                    <p> Menu </p>
+                    <div class="dropdown-content">
+                        <a href="order.html">ORDER</a>
+                        <a href="stores.html">STORE</a>
+                        <a href="deals.html">DEALS</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a class="shift" href="signin.html">Sign In / Sign up</a>
+            </li>
+            <li>
+                <a href="#" class="left"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="main_body">
+        <p class="bodyp0"><img class="body2" src="img1.png" alt="bg"></p>
+        <p class="bodyp1"> Shoes are like, <span class="red">makeup</span><br> for The <span class="blue">feet.</span>
+            <br>
+            <button class="btn_D" onclick="orderNow()"> Order Now</button>
+            <button class="btn_T"> Offers</button>
+        </p>
+        <script>
+            function orderNow() {
+                var itemName = prompt("Enter the name of the item:");
+                var quantity = parseInt(prompt("Enter the quantity:"));
+                var address = prompt("Enter your address:");
+
+                // Example of processing the order
+                var totalCost = calculateTotalCost(itemName, quantity);
+                alert("Your order for " + quantity + " " + itemName + "(s) has been placed. Total cost: $" + totalCost + ". Your order will be delivered to: " + address);
+            }
+
+            // Example function to calculate total cost based on item name and quantity
+            function calculateTotalCost(itemName, quantity) {
+                // Dummy data, replace with actual pricing logic
+                var pricePerItem = 10;
+                return pricePerItem * quantity;
+            }
+        </script>
+
+    </div>
+
+    <div id="Menu">
+        <h1>Quick Menu</h1>
+        <div class="Qmenu">
+            <div class="rounded">
+                <img src="" alt="Nike">
+                <p>Nike <span class="red"><br>from &#8377 3,500</span></p>
+                <button class="order" onclick="window.location.href = 'order.html';"> create your order</button>
+            </div>
+            <div class="rounded">
+                <img src="" alt="Nike">
+                <p>new <span class="red"><br>from &#8377 10,000</span></p>
+                <button class="order" onclick="window.location.href = 'order.html';"> create your order</button>
+            </div>
+            <div class="rounded">
+                <img src="" alt="Nike">
+                <p>new <span class="red"><br>from &#8377 15,000</span></p>
+                <button class="order" onclick="window.location.href = 'order.html';"> create your order</button>
+            </div>
+            <div class="rounded">
+                <img src="" alt="Nike">
+                <p>new <span class="red"><br>from &#8377 20,000</span></p>
+                <button class="order" onclick="window.location.href = 'order.html';"> create your order</button>
+            </div>
+            <div class="rounded">
+                <img src="" alt="Nike">
+                <p>new <span class="red"><br>from &#8377 10,000</span></p>
+                <button class="order" onclick="window.location.href = 'order.html';"> create your order</button>
+            </div>
+            <div class="rounded">
+                <img src="" alt="Nike">
+                <p>new <span class="red"><br>from &#8377 5,000</span></p>
+                <button class="order" onclick="window.location.href = 'order.html';"> create your order</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="int">
+        <div>
+            <h4>INTERNATIONAL</h4>
+            <ul>
+                <li>UNITED STATES</li>
+                <li>LONDON</li>
+                <li>ASIA</li>
+                <li>AFRICA</li>
+                <li>AUSTRALIA</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>COMPANY</h4>
+            <ul>
+                <li>CONTACT US</li>
+                <li>SEEK ASSISTANCE</li>
+                <li>PROMOTIONS</li>
+                <li>ABOUT US</li>
+                <li>ALLERGEN INFO</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>JOBS</h4>
+            <ul>
+                <li>APPLY AS AFFILIATE</li>
+                <li>BECOME A SELLER</li>
+                <li>WORK <br>from HOME JOBS</li>
+                <li>MORE INFO</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>LEGAL</h4>
+            <ul>
+                <li>TERMS AND CONDITIONS</li>
+                <li>HOW WE USE COOKIES</li>
+                <li>PRIVACY POLICY</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="below">
+
+        <p>
+            <a href="link" id="policy">
+                <h1>SHOPIEE PRIVACY POLICY AND COOKIE POLICY</h1>
+            </a>
+            This privacy policy describes the personal data collected or generated (processed) when you interact with
+            Nike through our websites (“Sites”), digital experiences,<br> mobile applications, stores events, or one of
+            our other products or services,
+            all of which are part of Shope's Platform (“Platform”).<br> It also explains how your personal data is used,
+            shared and protected, what choices you have relating to your personal data and how you can contact us.
+        </p>
+    </div>
+</body>
+
+</html>
+
+</html>

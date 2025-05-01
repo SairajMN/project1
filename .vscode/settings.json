@@ -1,0 +1,7 @@
+{
+    "editor.codeActionWidget.includeNearbyQuickFixes": false,
+    "editor.codeActionWidget.showHeaders": false,
+    "editor.codeLens": false,
+    "json.format.enable": false,
+    "editor.fontFamily": "Consolas, 'Courier New'"
+}
