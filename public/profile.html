@@ -1,28 +1,49 @@
-<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link rel="stylesheet" href="D.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="D.css">
+  <style>
+    .alert {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 25px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1000;
+      animation: fadeIn 0.3s;
+    }
+    .alert.error { background-color: #ff4444; }
+    .alert.success { background-color: #00C851; }
+    .loader {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
 </head>
-
 <body>
-    <div class="profile-container">
-        <div class="profile-header">
-            <h1>User Profile</h1>
-        </div>
-        <div class="profile-info">
-            <div><strong>Name:</strong> <span id="name"></span></div>
-            <div><strong>Email:</strong> <span id="email"></span></div>
-            <div><strong>Joined:</strong> <span id="createdAt"></span></div>
-        </div>
-        <button onclick="logout()">Logout</button>
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>User Profile</h1>
+      <button data-logout>Logout</button>
     </div>
-
-    <script src='script.js'></script>
+    <div class="profile-info">
+      <div><strong>Name:</strong> <span id="name"></span></div>
+      <div><strong>Email:</strong> <span id="email"></span></div>
+      <div><strong>Member Since:</strong> <span id="createdAt"></span></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
-
 </html>

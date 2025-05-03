@@ -1,221 +1,215 @@
-// Utility Functions
-const showAlert = (message, type = 'error') => {
-    const alertBox = document.createElement('div');
-    alertBox.className = `alert ${type}`;
-    alertBox.textContent = message;
-    document.body.prepend(alertBox);
-    setTimeout(() => alertBox.remove(), 5000);
-};
-
-const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-};
-
-const validatePassword = (password) => {
-    return password.length >= 8;
-};
-
-const handleFormSubmit = async (e, endpoint, successMessage) => {
-    e.preventDefault();
-    const form = e.target;
-    const button = form.querySelector('button');
-    const originalText = button.textContent;
-    
-    try {
-        button.disabled = true;
-        button.textContent = 'Processing...';
-
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        // Validation
-        if (form.id === 'signupForm' && !data.name) {
-            throw new Error('Please enter your name');
-        }
-
-        if (!validateEmail(data.email)) {
-            throw new Error('Please enter a valid email address');
-        }
-
-        if (!validatePassword(data.password)) {
-            throw new Error('Password must be at least 8 characters');
-        }
-
-        const response = await fetch(`http://localhost:3000/api/${endpoint}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-
-        const responseData = await response.json();
+document.addEventListener('DOMContentLoaded', () => {
+    // Auth Service
+    const AuthService = {
+      storeToken: (token) => localStorage.setItem('token', token),
+      getToken: () => localStorage.getItem('token'),
+      clearToken: () => localStorage.removeItem('token'),
+      
+      fetchWithAuth: async (url, options = {}) => {
+        const token = AuthService.getToken();
+        const headers = {
+          'Content-Type': 'application/json',
+          ...options.headers,
+          ...(token && { 'Authorization': `Bearer ${token}` })
+        };
+  
+        const response = await fetch(url, { ...options, headers });
         
-        if (!response.ok) {
-            throw new Error(responseData.message || 'Something went wrong');
+        if (response.status === 401) {
+          AuthService.clearToken();
+          window.location.href = '/signin.html?session=expired';
+          throw new Error('Session expired');
         }
-
-        showAlert(successMessage, 'success');
-        form.reset();
-
-        // Redirect on successful sign-in
-        if (endpoint === 'signin') {
-            localStorage.setItem('authToken', responseData.token);
-            window.location.href = '/profile.html';
+        
+        return response;
+      }
+    };
+  
+    // UI Utilities
+    const UI = {
+      showAlert: (message, type = 'error') => {
+        const alert = document.createElement('div');
+        alert.className = `alert ${type}`;
+        alert.textContent = message;
+        document.body.prepend(alert);
+        setTimeout(() => alert.remove(), 5000);
+      },
+      
+      toggleLoader: (button, show) => {
+        if (show) {
+          button.dataset.originalText = button.textContent;
+          button.disabled = true;
+          button.innerHTML = '<span class="loader"></span> Processing...';
+        } else {
+          button.disabled = false;
+          button.textContent = button.dataset.originalText;
         }
-
-    } catch (error) {
-        showAlert(error.message);
-    } finally {
-        button.disabled = false;
-        button.textContent = originalText;
-    }
-};
-
-localStorage.setItem('token', responseData.token);
-localStorage.setItem('user', JSON.stringify(responseData.user));
-// Event Listeners
-document.getElementById('signupForm')?.addEventListener('submit', (e) => {
-    handleFormSubmit(e, 'signup', 'Signup successful! Please sign in.');
-});
-
-document.getElementById('signinForm')?.addEventListener('submit', (e) => {
-    handleFormSubmit(e, 'signin', 'Sign-in successful! Redirecting...');
-});
-
-const form = document.getElementById('orderForm');
+      }
+    };
+  
+    // Auth Handlers
+    const setupAuthForms = () => {
+      const handleAuth = async (e, endpoint) => {
+        e.preventDefault();
+        const form = e.target;
+        const button = form.querySelector('button');
+        
+        try {
+          UI.toggleLoader(button, true);
+          
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData.entries());
+          
+          // Validation
+          if (form.id === 'signupForm' && !data.name) {
+            throw new Error('Please enter your name');
+          }
+          
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+            throw new Error('Please enter a valid email');
+          }
+          
+          if (data.password.length < 8) {
+            throw new Error('Password must be at least 8 characters');
+          }
+          
+          const response = await AuthService.fetchWithAuth(
+            `http://localhost:3000/api/${endpoint}`, 
+            {
+              method: 'POST',
+              body: JSON.stringify(data)
+            }
+          );
+          
+          const result = await response.json();
+          
+          if (!response.ok) {
+            throw new Error(result.message || 'Authentication failed');
+          }
+          
+          AuthService.storeToken(result.token);
+          UI.showAlert(
+            endpoint === 'signin' 
+              ? 'Sign-in successful! Redirecting...' 
+              : 'Account created successfully!',
+            'success'
+          );
+          
+          if (endpoint === 'signin') {
+            setTimeout(() => {
+              window.location.href = '/profile.html';
+            }, 1500);
+          } else {
+            form.reset();
+          }
+          
+        } catch (error) {
+          UI.showAlert(error.message);
+        } finally {
+          UI.toggleLoader(button, false);
+        }
+      };
+      
+      document.getElementById('signupForm')?.addEventListener('submit', (e) => {
+        handleAuth(e, 'signup');
+      });
+      
+      document.getElementById('signinForm')?.addEventListener('submit', (e) => {
+        handleAuth(e, 'signin');
+      });
+    };
+  
+    // Order Form Handler
+    const setupOrderForm = () => {
+      const form = document.getElementById('orderForm');
+      if (!form) return;
+      
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const button = form.querySelector('button');
         const messageDiv = document.getElementById('message');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const orderData = {
-                product_name: document.getElementById('product_name').value,
-                quantity: document.getElementById('quantity').value,
-                customer_name: document.getElementById('customer_name').value,
-                email: document.getElementById('email').value,
-                address: document.getElementById('address').value
-            };
-
-            try {
-                const response = await fetch('http://localhost:3000/api/order', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(orderData)
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    messageDiv.style.color = 'green';
-                    messageDiv.innerText = result.message;
-                    form.reset(); // Clear the form
-                } else {
-                    messageDiv.style.color = 'red';
-                    messageDiv.innerText = result.message || 'Something went wrong.';
-                }
-            } catch (error) {
-                messageDiv.style.color = 'red';
-                messageDiv.innerText = 'Error placing order. Server might be down.';
+        
+        try {
+          UI.toggleLoader(button, true);
+          messageDiv.textContent = '';
+          
+          const orderData = {
+            product_name: form.product_name.value,
+            quantity: form.quantity.value,
+            customer_name: form.customer_name.value,
+            email: form.email.value,
+            address: form.address.value
+          };
+          
+          
+          const response = await AuthService.fetchWithAuth(
+            'http://localhost:3000/api/order',
+            {
+              method: 'POST',
+              body: JSON.stringify(orderData)
             }
-        });
-
-
-        // Get user profile data
-        async function fetchProfile() {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    window.location.href = '/signin.html';
-                    return;
-                }
-
-                const response = await fetch('http://localhost:3000/api/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.status === 401) {
-                    localStorage.removeItem('token');
-                    window.location.href = '/signin.html';
-                    return;
-                }
-
-                const data = await response.json();
-
-                document.getElementById('name').textContent = data.user.name || 'N/A';
-                document.getElementById('email').textContent = data.user.email;
-                document.getElementById('createdAt').textContent = new Date(data.user.createdAt).toLocaleDateString();
-
-            } catch (error) {
-                console.error('Error fetching profile:', error);
-                alert('Error loading profile data');
-            }
+          );
+          
+          const result = await response.json();
+          
+          if (response.ok) {
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = result.message;
+            form.reset();
+          } else {
+            throw new Error(result.message || 'Order failed');
+          }
+        } catch (error) {
+          messageDiv.style.color = 'red';
+          messageDiv.textContent = error.message;
+        } finally {
+          UI.toggleLoader(button, false);
         }
-
-        function logout() {
-            localStorage.removeItem('token');
-            window.location.href = '/signin.html';
+      });
+    };
+  
+    // Profile Management
+    const setupProfile = () => {
+      if (!window.location.pathname.includes('profile.html')) return;
+      
+      const loadProfile = async () => {
+        try {
+          const response = await AuthService.fetchWithAuth(
+            'http://localhost:3000/api/profile'
+          );
+          
+          const profile = await response.json();
+          
+          document.getElementById('name').textContent = profile.name;
+          document.getElementById('email').textContent = profile.email;
+          document.getElementById('createdAt').textContent = 
+            new Date(profile.created_at).toLocaleDateString();
+            
+        } catch (error) {
+          console.error('Profile load error:', error);
+          UI.showAlert('Failed to load profile data');
         }
-
-        // Check authentication on page load
-        (function init() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = '/signin.html';
-            } else {
-                fetchProfile();
-            }
-        })();
-        async function loadProfile() {
-            try {
-                const response = await fetch('/api/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-
-                const profileData = await response.json();
-
-                // Populate form fields
-                document.getElementById('name').textContent = profileData.name;
-                document.getElementById('email').textContent = profileData.email;
-                document.getElementById('address').value = profileData.address || '';
-                document.getElementById('phone').value = profileData.phone || '';
-
-            } catch (error) {
-                console.error('Profile load error:', error);
-            }
-        }
-// Add this interceptor for all fetch calls
-const originalFetch = fetch;
-window.fetch = async function(...args) {
-    const response = await originalFetch(...args);
-    if (response.status === 401) {
-        localStorage.removeItem('token');
-        window.location.href = '/signin.html'; // Redirect to signin
-        throw new Error('Session expired');
-    }
-    return response;
-};
-
-// Alternative: Per-request error handling
-try {
-    const response = await fetch('/api/protected-route', {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    });
-    if (!response.ok) throw await response.json();
-} catch (error) {
-    if (error.statusCode === 401) {
-        // ADD REDIRECT LOGIC HERE ▼
-        localStorage.removeItem('token');
+      };
+      
+      document.querySelector('[data-logout]')?.addEventListener('click', () => {
+        AuthService.clearToken();
         window.location.href = '/signin.html';
-    }
-}
-    
+      });
+      
+      loadProfile();
+    };
+  
+    // Initialize
+    const init = () => {
+      if (!AuthService.getToken() && 
+          !['/signin.html', '/signup.html'].includes(window.location.pathname)) {
+        window.location.href = '/signin.html';
+      }
+      
+      setupAuthForms();
+      setupOrderForm();
+      setupProfile();
+    };
+  
+    init();
+  });
