@@ -1,15 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hot Deals - Shopiee</title>
+    <style>
+        :root {
+            --primary:rgb(235, 37, 37);
+            --secondary:rgb(175, 30, 30);
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark:rgb(115, 58, 60);
+            --success:rgb(16, 185, 100);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .deal-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .deal-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .deal-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .timer {
+            background-color: rgba(255,255,255,0.2);
+            display: inline-flex;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        
+        .deals-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .deal-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .deal-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .deal-badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .deal-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .deal-details {
+            padding: 1.5rem;
+        }
+        
+        .deal-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .deal-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #64748b;
+        }
+        
+        .discount {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .deal-cta {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .deal-cta:hover {
+            background-color: var(--secondary);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
-    hey
-</body>
+    <header>
+        <div class="navbar">
+            <div class="logo">Shopiee</div>
+            <nav>
+                <a href="shopiee.html">Home</a>
+                <a href="order.html">Orders</a>
+                <a href="profile.html">Account</a>
+            </nav>
+        </div>
+    </header>
 
+    <section class="deal-banner">
+        <h1>FLASH SALE! Limited Time Offers</h1>
+        <p>Don't miss out on these exclusive deals - available for a limited time only!</p>
+        <div class="timer">⏰ Ends in: 23:59:59</div>
+    </section>
+
+    <div class="deals-container">
+        <h2 class="section-title">Today's Best Deals</h2>
+        <div class="deals-grid">
+            <!-- Deal 1 -->
+            <div class="deal-card">
+                <div style="position: relative;">
+                    <span class="deal-badge">50% OFF</span>
+                    <img src="https://via.placeholder.com/300x200?text=Smartphone" alt="Smartphone" class="deal-image">
+                </div>
+                <div class="deal-details">
+                    <h3 class="deal-title">Premium Smartphone X9 Pro</h3>
+                    <div class="deal-price">
+                        <span class="current-price">$499</span>
+                        <span class="original-price">$999</span>
+                        <span class="discount">50% off</span>
+                    </div>
+                    <button class="deal-cta">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Deal 2 -->
+            <div class="deal-card">
+                <div style="position: relative;">
+                    <span class="deal-badge">35% OFF</span>
+                    <img src="https://via.placeholder.com/300x200?text=Headphones" alt="Headphones" class="deal-image">
+                </div>
+                <div class="deal-details">
+                    <h3 class="deal-title">Wireless Noise-Cancelling Headphones</h3>
+                    <div class="deal-price">
+                        <span class="current-price">$129</span>
+                        <span class="original-price">$199</span>
+                        <span class="discount">35% off</span>
+                    </div>
+                    <button class="deal-cta">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Deal 3 -->
+            <div class="deal-card">
+                <div style="position: relative;">
+                    <span class="deal-badge">60% OFF</span>
+                    <img src="https://via.placeholder.com/300x200?text=Smart+Watch" alt="Smart Watch" class="deal-image">
+                </div>
+                <div class="deal-details">
+                    <h3 class="deal-title">Fitness Smart Watch Pro</h3>
+                    <div class="deal-price">
+                        <span class="current-price">$79</span>
+                        <span class="original-price">$199</span>
+                        <span class="discount">60% off</span>
+                    </div>
+                    <button class="deal-cta">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Deal 4 -->
+            <div class="deal-card">
+                <div style="position: relative;">
+                    <span class="deal-badge">40% OFF</span>
+                    <img src="https://via.placeholder.com/300x200?text=Laptop" alt="Laptop" class="deal-image">
+                </div>
+                <div class="deal-details">
+                    <h3 class="deal-title">Ultra Slim Laptop 2023</h3>
+                    <div class="deal-price">
+                        <span class="current-price">$899</span>
+                        <span class="original-price">$1499</span>
+                        <span class="discount">40% off</span>
+                    </div>
+                    <button class="deal-cta">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Coming Soon</h2>
+        <div class="deals-grid">
+            <!-- Coming Soon Deal 1 -->
+            <div class="deal-card">
+                <div style="position: relative;">
+                    <span class="deal-badge">Coming Soon</span>
+                    <img src="https://via.placeholder.com/300x200?text=Mystery+Deal" alt="Mystery Deal" class="deal-image">
+                </div>
+                <div class="deal-details">
+                    <h3 class="deal-title">Mystery Tech Bundle</h3>
+                    <p>Sign up to get notified when this deal goes live!</p>
+                    <button class="deal-cta">Notify Me</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Shopiee. All rights reserved.</p>
+        <div style="margin-top: 1rem;">
+            <a href="#" style="color: white; margin: 0 0.5rem;">Terms</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Privacy</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Contact</a>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown timer
+        function updateTimer() {
+            const now = new Date();
+            const endOfDay = new Date();
+            endOfDay.setHours(23, 59, 59, 999);
+            
+            const diff = endOfDay - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.querySelector('.timer').textContent = `⏰ Ends in: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
 </html>
