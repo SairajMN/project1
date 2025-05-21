@@ -1,28 +1,116 @@
-<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link rel="stylesheet" href="D.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile</title>
+  <link rel="stylesheet" href="D.css">
 </head>
+<body class="profile">
+  <div class="profile-container">
+    <div class="profile-header">
+  <img src="avatar.png" alt="Profile Picture" id="profileImage" />
+  <input type="file" id="uploadImage" accept="image/*" />
+  <h1>User Profile</h1>
+</div>
+    <div class="profile-info">
+      <div><strong>Name:</strong> <span id="name"></span></div>
+      <div><strong>Email:</strong> <span id="email"></span></div>
+      <div><strong>Joined:</strong> <span id="createdAt"></span></div>
 
-<body>
-    <div class="profile-container">
-        <div class="profile-header">
-            <h1>User Profile</h1>
-        </div>
-        <div class="profile-info">
-            <div><strong>Name:</strong> <span id="name"></span></div>
-            <div><strong>Email:</strong> <span id="email"></span></div>
-            <div><strong>Joined:</strong> <span id="createdAt"></span></div>
-        </div>
-        <button onclick="logout()">Logout</button>
+      <form id="profileForm">
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" />
+
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" />
+
+        <button type="submit">Update Profile</button>
+      </form>
+
+      <button onclick="logout()">Logout</button>
     </div>
+  </div>
 
-    <script src='script.js'></script>
+  <script>
+    async function fetchProfile() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return window.location.href = 'signin.html';
+
+        const response = await fetch('http://localhost:3000/api/profile', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.status === 401) {
+          localStorage.removeItem('token');
+          return window.location.href = 'signin.html';
+        }
+
+        const data = await response.json();
+        document.getElementById('name').textContent = data.name;
+        document.getElementById('email').textContent = data.email;
+        document.getElementById('createdAt').textContent = new Date(data.created_at).toLocaleDateString();
+        document.getElementById('address').value = data.address || '';
+        document.getElementById('phone').value = data.phone || '';
+      } catch (error) {
+        alert('Failed to load profile');
+        console.error(error);
+      }
+    }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      const address = document.getElementById('address').value;
+      const phone = document.getElementById('phone').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/api/profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ address, phone })
+        });
+
+        const data = await response.json();
+        alert(data.message || 'Profile updated');
+      } catch (error) {
+        alert('Failed to update profile');
+        console.error(error);
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem('token');
+      window.location.href = 'signin.html';
+    }
+
+    fetchProfile();
+
+  // Load saved profile image from localStorage
+  const savedImage = localStorage.getItem('profileImage');
+  if (savedImage) {
+    document.getElementById('profileImage').src = savedImage;
+  }
+
+  // Handle image upload and preview
+  document.getElementById('uploadImage').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const base64 = event.target.result;
+        document.getElementById('profileImage').src = base64;
+        localStorage.setItem('profileImage', base64);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // rest of your fetchProfile, update, and logout code below...
+  </script>
 </body>
-
 </html>

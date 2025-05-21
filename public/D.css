@@ -282,7 +282,7 @@ body {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(231, 218, 218, 0.1);
 }
 
 .profile-header {
@@ -292,6 +292,7 @@ body {
 
 .profile-info {
     margin-bottom: 20px;
+    color:white;
 }
 
 .profile-info div {
@@ -309,3 +310,58 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+/* profile */
+
+.profile {
+      margin: 0;
+      font-family: monospace;
+      background-color: black;
+      color: red;
+    }
+    .profile-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    }
+    .profile-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .profile-header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid red;
+    }
+    .profile-info div {
+      margin: 10px 0;
+    }
+    label {
+      color: black;
+      display: block;
+      margin-top: 15px;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid red;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      background: red;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: darkred;
+    }

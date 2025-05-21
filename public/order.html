@@ -53,7 +53,46 @@
 
     <div class="message" id="message"></div>
 
-    <script src='script.js'></script>
+    <script>
+        const form = document.getElementById('orderForm');
+        const messageDiv = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const orderData = {
+                product_name: document.getElementById('product_name').value,
+                quantity: document.getElementById('quantity').value,
+                customer_name: document.getElementById('customer_name').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    messageDiv.style.color = 'green';
+                    messageDiv.innerText = result.message;
+                    form.reset(); // Clear the form
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.innerText = result.message || 'Something went wrong.';
+                }
+            } catch (error) {
+                messageDiv.style.color = 'red';
+                messageDiv.innerText = 'Error placing order. Server might be down.';
+            }
+        });
+    </script>
 
 </body>
 
